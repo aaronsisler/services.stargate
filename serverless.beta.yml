@@ -1,0 +1,40 @@
+service: stargate
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  profile: serverless
+  stage: beta
+  region: us-east-1
+  apiKeys:
+    - stargate-${self:provider.stage}
+  usagePlan:
+    quota:
+      limit: 500
+      offset: 0
+      period: MONTH
+    throttle:
+      burstLimit: 20
+      rateLimit: 10
+  environment:
+    NODE_ENV: beta
+
+functions:
+  health:
+    handler: src/health/health.handler
+    description: Gateway health check. Responds with current time and a short message.
+    events:
+      - http:
+          path: /health
+          method: get
+
+plugins:
+  - serverless-domain-manager
+
+custom:
+  secrets: ${file(secrets.json)}
+  customDomain:
+    domainName: ${self:custom.secrets.DOMAIN}
+    basePath: "beta"
+    stage: beta
+    createRoute53Record: true

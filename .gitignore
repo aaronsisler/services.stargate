@@ -1,0 +1,4 @@
+.serverless/
+node_modules/
+secrets.json
+**/secrets.js
