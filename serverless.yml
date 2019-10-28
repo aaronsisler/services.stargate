@@ -1,4 +1,4 @@
-service: stargate
+service: services.stargate
 
 provider:
   name: aws
