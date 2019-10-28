@@ -6,6 +6,7 @@ provider:
   profile: serverless
   stage: beta
   region: us-east-1
+  role: arn:aws:iam::654918520080:role/Lambda-SES
   apiKeys:
     - stargate-${self:provider.stage}
   usagePlan:
@@ -27,6 +28,14 @@ functions:
       - http:
           path: /health
           method: get
+  email:
+    handler: src/email/email.handler
+    description: Used to send email with Simple Email Service (SES)
+    events:
+      - http:
+          path: /email
+          method: post
+          private: true
 
 plugins:
   - serverless-domain-manager
