@@ -35,6 +35,7 @@ functions:
       - http:
           path: /email
           method: post
+          private: true
 
 plugins:
   - serverless-domain-manager
