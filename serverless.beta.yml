@@ -36,6 +36,7 @@ functions:
           path: /email
           method: post
           private: true
+          cors: true
 
 plugins:
   - serverless-domain-manager
