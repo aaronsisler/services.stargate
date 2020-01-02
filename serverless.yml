@@ -22,14 +22,14 @@ provider:
 
 functions:
   health:
-    handler: src/health/health.handler
+    handler: src/health/index.handler
     description: Gateway health check. Responds with current time and a short message.
     events:
       - http:
           path: /health
           method: get
   email:
-    handler: src/email/email.handler
+    handler: src/email/index.handler
     description: Used to send email with Simple Email Service (SES)
     events:
       - http:
