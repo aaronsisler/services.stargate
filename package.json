@@ -9,16 +9,19 @@
     "deploy:beta": "sls deploy --config=serverless.beta.yml && yarn clear-serverless",
     "deploy:prod": "sls deploy && yarn clear-serverless",
     "test:email": "cross-env SLS_DEBUG=* serverless invoke --function email --config=serverless.beta.yml",
-    "test:health": "serverless invoke --function health --config=serverless.beta.yml"
+    "test:health": "serverless invoke --function health --config=serverless.beta.yml",
+    "test:server": "node test/server"
   },
   "engines": {
     "yarn": ">=1.13.0",
     "node": ">=10"
   },
   "dependencies": {
+    "nodemailer": "^6.4.2",
     "serverless-domain-manager": "^2.6.0"
   },
   "devDependencies": {
+    "express": "^4.17.1",
     "serverless": "^1.55.1"
   }
 }

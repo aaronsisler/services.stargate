@@ -1,6 +1,8 @@
 exports.handler = async ({ body: rawData }, context, callback) => {
   const { validateInputs } = require("./validate-inputs");
-  const { sendEmail } = require("./email-with-attachment-service");
+  const {
+    sendEmailWithAttachment
+  } = require("./email-with-attachment-service");
   const {
     get200Response,
     get400Response,
@@ -10,14 +12,16 @@ exports.handler = async ({ body: rawData }, context, callback) => {
   const data = JSON.parse(rawData);
 
   if (!validateInputs(data)) {
-    callback(null, get400Response());
+    return callback(null, get400Response());
   }
 
   try {
-    await sendEmail(data);
-    callback(null, get200Response());
+    await sendEmailWithAttachment(data);
+
+    return callback(null, get200Response());
   } catch (error) {
     console.log(error);
-    callback(null, get500Response());
+
+    return callback(null, get500Response());
   }
 };

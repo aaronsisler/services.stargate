@@ -22,3 +22,9 @@ exports.get500Response = () => ({
   statusCode: 500,
   body: JSON.stringify({ message: "Something blew up" })
 });
+
+exports.get500TestingResponse = error => ({
+  ...response,
+  statusCode: 500,
+  body: JSON.stringify({ error })
+});
