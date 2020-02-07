@@ -3,7 +3,6 @@ service: stargate
 provider:
   name: aws
   runtime: nodejs10.x
-  profile: serverless
   stage: prod
   region: us-east-1
   role: arn:aws:iam::654918520080:role/Lambda-SES
@@ -34,6 +33,15 @@ functions:
     events:
       - http:
           path: /email
+          method: post
+          private: true
+          cors: true
+  email-with-attachment:
+    handler: src/email-with-attachment/index.handler
+    description: Used to send email containing attachment with NodeMailer and Simple Email Service (SES)
+    events:
+      - http:
+          path: /email-with-attachment
           method: post
           private: true
           cors: true
