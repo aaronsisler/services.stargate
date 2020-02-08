@@ -10,14 +10,16 @@ exports.handler = async ({ body: rawData }, context, callback) => {
   const data = JSON.parse(rawData);
 
   if (!validateInputs(data)) {
-    callback(null, get400Response());
+    return callback(null, get400Response());
   }
 
   try {
     await sendEmail(data);
-    callback(null, get200Response());
+
+    return callback(null, get200Response());
   } catch (error) {
     console.log(error);
-    callback(null, get500Response());
+
+    return callback(null, get500Response());
   }
 };

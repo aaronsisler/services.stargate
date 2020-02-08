@@ -1,4 +1,4 @@
-exports.handler = (event, context, callback) => {
+exports.healthService = () => {
   const currentTime = new Date().toTimeString();
   const response = {
     statusCode: 200,
@@ -8,5 +8,5 @@ exports.handler = (event, context, callback) => {
     })
   };
 
-  callback(null, response);
+  return response;
 };
