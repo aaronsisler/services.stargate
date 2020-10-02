@@ -1,13 +1,6 @@
-// exports.handler = (event, context, callback) => {
-//   const { healthService } = require("./health-service");
-//   const response = healthService();
-
-//   callback(null, response);
-// };
-
 import { heartbeatService } from "./heartbeat-service";
 
-const handler = (event, context, callback) => {
+const handler = (_event: any, _context: any, callback: any) => {
   const response = heartbeatService();
 
   callback(null, response);
