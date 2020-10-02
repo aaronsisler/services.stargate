@@ -1,27 +1,62 @@
 {
   "name": "services.stargate",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "clear-serverless": "rm -rf ./.serverless",
     "create-domain:beta": "sls create_domain --config=serverless.beta.yml",
     "create-domain:prod": "sls create_domain",
+    "lint": "eslint \"./**/*.{ts,js}\"",
+    "prebuild": "rm -rf ./dist",
+    "build": "npx babel src --out-dir dist",
     "deploy:beta": "sls deploy --config=serverless.beta.yml && yarn clear-serverless",
-    "deploy:prod": "sls deploy && yarn clear-serverless",
-    "test:email": "cross-env SLS_DEBUG=* serverless invoke --function email --config=serverless.beta.yml",
-    "test:health": "serverless invoke --function health --config=serverless.beta.yml",
-    "test:server": "node test/server"
+    "deploy:prod": "sls deploy && yarn clear-serverless"
   },
   "engines": {
-    "yarn": ">=1.13.0",
-    "node": ">=10"
+    "node": ">=12"
   },
   "dependencies": {
+    "eslint-import-resolver-webpack": "^0.13.0",
     "nodemailer": "^6.4.2",
     "serverless-domain-manager": "^2.6.0"
   },
   "devDependencies": {
-    "express": "^4.17.1",
-    "serverless": "^1.55.1"
-  }
+    "@babel/cli": "^7.8.4",
+    "@babel/compat-data": "7.8.0",
+    "@babel/core": "^7.8.4",
+    "@babel/plugin-proposal-numeric-separator": "^7.10.4",
+    "@babel/plugin-transform-arrow-functions": "^7.8.3",
+    "@babel/polyfill": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
+    "babel-jest": "^25.1.0",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-prettier": "^3.1.1",
+    "husky": "^3.0.9",
+    "jest": "^25.1.0",
+    "lint-staged": "^9.4.2",
+    "prettier": "^1.18.2",
+    "serverless": "^1.55.1",
+    "typescript": "^3.7.5"
+  },
+  "resolutions": {
+    "@babel/preset-env": "7.5.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aaronsisler/services.stargate.git"
+  },
+  "keywords": [
+    "git changed files",
+    "git status",
+    "git diff"
+  ],
+  "author": "Aaron Sisler",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aaronsisler/services.stargate/issues"
+  },
+  "homepage": "https://github.com/aaronsisler/services.stargate#readme"
 }
