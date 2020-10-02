@@ -2,10 +2,14 @@ const getEmailParams = (inputs: any) => {
   const { getEmailTemplate } = require("./email-template");
   const { SERVICE_EMAIL_ADDRESS: from } = require("./config");
 
-  const { emailAddress: replyTo, pointOfContactEmail } = inputs;
+  const { clientName, emailAddress: replyTo, pointOfContactEmail } = inputs;
   const fromBase64 = Buffer.from(from).toString("base64");
 
   const htmlBody = getEmailTemplate(inputs);
+
+  const subjectData = clientName
+    ? `${clientName} Contact Request`
+    : `Contact Request`;
 
   return {
     Destination: {
@@ -20,7 +24,7 @@ const getEmailParams = (inputs: any) => {
       },
       Subject: {
         Charset: "UTF-8",
-        Data: "Contact Form Submission"
+        Data: subjectData
       }
     },
     ReplyToAddresses: [replyTo],
