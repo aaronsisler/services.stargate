@@ -50,13 +50,13 @@ const sendEmailWithAttachment = (inputs: any) => {
   // create Nodemailer SES transporter
   const transporter = nodemailer.createTransport({ SES });
 
-  const { encodedFile, name, pointOfContactEmail } = inputs;
+  const { clientName, encodedFile, name, pointOfContactEmail } = inputs;
 
   // send some mail
   return transporter.sendMail({
     from: `=?utf-8?B?${fromBase64}?= <${SERVICE_EMAIL_ADDRESS}>`,
     to: pointOfContactEmail,
-    subject: `Application Submission from ${name}`,
+    subject: `${clientName} Application Submission from ${name}`,
     html: getEmailTemplate(inputs),
     attachments: [
       {

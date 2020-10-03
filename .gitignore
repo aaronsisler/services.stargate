@@ -16,5 +16,3 @@ secrets.json
 # local error files
 npm-debug.log*
 sh.exe.stackdump
-
-/src-old

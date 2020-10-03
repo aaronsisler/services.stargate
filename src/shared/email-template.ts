@@ -52,12 +52,9 @@ const getEmailTemplate = (inputs: any, hasAttachment = false) => {
 
 const getBodyHeader = (title: string) => {
   return `
-    <h3>
-      ${title}
-    </h3>
-    <br />
-    <br />
     <p>
+      ${title}
+      <br />
       Here is their contact info below:
     </p>
     `;
@@ -92,15 +89,15 @@ const getHead = () => `
     <meta name="viewport" content="width=device-width">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <style>
-      h3 {
-        margin: 1rem 20% 0.25rem 1rem;
-        padding: 1rem 0 0.25rem;
+      p {
+        font-size: 1.25rem;
+        margin: 0;
       }
   
       .contact_info {
         background-color: rgba(120, 186, 251, 0.6);
         color: rgba(0, 0, 0, 0.8);
-        margin: 1rem;
+        margin: 1rem 0;
         padding: 0 0.5rem 1rem 0.5rem;
         width: 30%;
       }
