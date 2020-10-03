@@ -46,11 +46,6 @@
     "type": "git",
     "url": "git+https://github.com/aaronsisler/services.stargate.git"
   },
-  "keywords": [
-    "git changed files",
-    "git status",
-    "git diff"
-  ],
   "author": "Aaron Sisler",
   "license": "ISC",
   "bugs": {
