@@ -2,7 +2,7 @@ service: stargate
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs12.x
   stage: beta
   region: us-east-1
   role: arn:aws:iam::654918520080:role/Lambda-SES

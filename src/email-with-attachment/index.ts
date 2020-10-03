@@ -1,5 +1,5 @@
 import { validateInputs } from "../shared/validate-inputs";
-import { sendEmail } from "../shared/email-service";
+import { sendEmailWithAttachment } from "../shared/email-service";
 import {
   get200Response,
   get400Response,
@@ -14,7 +14,7 @@ const handler = async (event: any, _context: any, callback: any) => {
   }
 
   try {
-    await sendEmail(data);
+    await sendEmailWithAttachment(data);
 
     return callback(null, get200Response());
   } catch (error) {
