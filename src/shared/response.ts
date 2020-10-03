@@ -5,26 +5,22 @@ const response = {
   }
 };
 
-exports.get200Response = () => ({
+const get200Response = () => ({
   ...response,
   statusCode: 200,
   body: JSON.stringify({ message: "Success" })
 });
 
-exports.get400Response = () => ({
+const get400Response = () => ({
   ...response,
   statusCode: 400,
   body: JSON.stringify({ message: "Invalid Inputs" })
 });
 
-exports.get500Response = () => ({
+const get500Response = () => ({
   ...response,
   statusCode: 500,
   body: JSON.stringify({ message: "Something blew up" })
 });
 
-exports.get500TestingResponse = error => ({
-  ...response,
-  statusCode: 500,
-  body: JSON.stringify({ error })
-});
+export { get200Response, get400Response, get500Response };

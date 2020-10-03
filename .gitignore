@@ -1,4 +1,18 @@
-.serverless/
+# dependencies
 node_modules/
+.vscode/
+
+# Build files
+dist/
+.serverless/
+
+# Testing
+coverage/
+
+# secrets
 secrets.json
 **/secrets.js
+
+# local error files
+npm-debug.log*
+sh.exe.stackdump

@@ -21,14 +21,14 @@ provider:
 
 functions:
   health:
-    handler: src/health/index.handler
+    handler: dist/heartbeat/index.handler
     description: Gateway health check. Responds with current time and a short message.
     events:
       - http:
-          path: /health
+          path: /heartbeat
           method: get
   email:
-    handler: src/email/index.handler
+    handler: dist/email/index.handler
     description: Used to send email with Simple Email Service (SES)
     events:
       - http:
@@ -37,7 +37,7 @@ functions:
           private: true
           cors: true
   email-with-attachment:
-    handler: src/email-with-attachment/index.handler
+    handler: dist/email-with-attachment/index.handler
     description: Used to send email containing attachment with NodeMailer and Simple Email Service (SES)
     events:
       - http:
