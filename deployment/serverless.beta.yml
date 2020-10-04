@@ -16,7 +16,7 @@ provider:
         - execute-api:/*/OPTIONS/*
       Condition:
         IpAddress:
-          aws:SourceIp: ${self:custom.cors.ipRange}
+          aws:SourceIp: ${file(./deployment/cors.json):ipRange}
   usagePlan:
     quota:
       limit: 500
@@ -44,8 +44,8 @@ functions:
           path: /heartbeat-auth
           method: get
           cors:
-            origins: ${self:custom.cors.allowedOrigins}
-            headers: ${self:custom.cors.headers}
+            origins: ${file(./deployment/cors.json):allowedOrigins}
+            headers: ${file(./deployment/cors.json):headers}
             allowCredentials: false
   email:
     handler: dist/email/index.handler
@@ -55,8 +55,8 @@ functions:
           path: /email
           method: post
           cors:
-            origins: ${self:custom.cors.allowedOrigins}
-            headers: ${self:custom.cors.headers}
+            origins: ${file(./deployment/cors.json):allowedOrigins}
+            headers: ${file(./deployment/cors.json):headers}
             allowCredentials: false
   email-with-attachment:
     handler: dist/email-with-attachment/index.handler
@@ -70,18 +70,6 @@ plugins:
   - serverless-domain-manager
 
 custom:
-  cors:
-    ipRange: ["64.98.114.195"]
-    allowedOrigins: ["http://localhost:3001", "https://beta.eandbsolutions.com"]
-    headers:
-      [
-        "Content-Type",
-        "X-Amz-Date",
-        "Authorization",
-        "X-Api-Key",
-        "X-Amz-Security-Token",
-        "X-Amz-User-Agent",
-      ]
   customDomain:
     domainName: services.eandbsolutions.com
     basePath: "beta"
