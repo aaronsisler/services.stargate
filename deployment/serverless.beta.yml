@@ -1,0 +1,89 @@
+service: stargate
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: beta
+  region: us-east-1
+  role: arn:aws:iam::654918520080:role/Lambda-SES
+  resourcePolicy:
+    - Effect: Allow
+      Principal: "*"
+      Action: execute-api:Invoke
+      Resource:
+        - execute-api:/*/GET/*
+        - execute-api:/*/POST/*
+        - execute-api:/*/OPTIONS/*
+      Condition:
+        IpAddress:
+          aws:SourceIp: ${self:custom.cors.ipRange}
+  usagePlan:
+    quota:
+      limit: 500
+      offset: 0
+      period: MONTH
+    throttle:
+      burstLimit: 20
+      rateLimit: 10
+  environment:
+    NODE_ENV: beta
+
+functions:
+  heartbeat:
+    handler: dist/heartbeat/index.handler
+    description: Gateway health check. Responds with current time and a short message.
+    events:
+      - http:
+          path: /heartbeat
+          method: get
+  heartbeat-auth:
+    handler: dist/heartbeat/index.handler
+    description: Gateway health check. Responds with current time and a short message.
+    events:
+      - http:
+          path: /heartbeat-auth
+          method: get
+          cors:
+            origins: ${self:custom.cors.allowedOrigins}
+            headers: ${self:custom.cors.headers}
+            allowCredentials: false
+  email:
+    handler: dist/email/index.handler
+    description: Used to send email with Simple Email Service (SES)
+    events:
+      - http:
+          path: /email
+          method: post
+          cors:
+            origins: ${self:custom.cors.allowedOrigins}
+            headers: ${self:custom.cors.headers}
+            allowCredentials: false
+  email-with-attachment:
+    handler: dist/email-with-attachment/index.handler
+    description: Used to send email containing attachment with NodeMailer and Simple Email Service (SES)
+    events:
+      - http:
+          path: /email-with-attachment
+          method: post
+
+plugins:
+  - serverless-domain-manager
+
+custom:
+  cors:
+    ipRange: ["64.98.114.195"]
+    allowedOrigins: ["http://localhost:3001", "https://beta.eandbsolutions.com"]
+    headers:
+      [
+        "Content-Type",
+        "X-Amz-Date",
+        "Authorization",
+        "X-Api-Key",
+        "X-Amz-Security-Token",
+        "X-Amz-User-Agent",
+      ]
+  customDomain:
+    domainName: services.eandbsolutions.com
+    basePath: "beta"
+    stage: beta
+    createRoute53Record: true

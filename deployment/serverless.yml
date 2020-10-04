@@ -2,8 +2,8 @@ service: stargate
 
 provider:
   name: aws
-  runtime: nodejs12.x
-  stage: beta
+  runtime: nodejs10.x
+  stage: prod
   region: us-east-1
   role: arn:aws:iam::654918520080:role/Lambda-SES
   apiKeys:
@@ -17,10 +17,10 @@ provider:
       burstLimit: 20
       rateLimit: 10
   environment:
-    NODE_ENV: beta
+    NODE_ENV: prod
 
 functions:
-  health:
+  heartbeat:
     handler: dist/heartbeat/index.handler
     description: Gateway health check. Responds with current time and a short message.
     events:
@@ -50,9 +50,8 @@ plugins:
   - serverless-domain-manager
 
 custom:
-  secrets: ${file(secrets.json)}
   customDomain:
-    domainName: ${self:custom.secrets.DOMAIN}
-    basePath: "beta"
-    stage: beta
+    domainName: services.eandbsolutions.com
+    basePath: "prod"
+    stage: prod
     createRoute53Record: true

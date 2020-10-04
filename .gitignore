@@ -10,8 +10,6 @@ dist/
 coverage/
 
 # secrets
-secrets.json
-**/secrets.js
 
 # local error files
 npm-debug.log*
