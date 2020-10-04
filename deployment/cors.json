@@ -1,0 +1,19 @@
+{
+  "ipRange": ["64.98.114.195"],
+  "allowedOrigins": [
+    "http://localhost:3000",
+    "https://*.eandbsolutions.com",
+    "https://waterbrooke.net",
+    "https://hhseniorliving.com",
+    "https://valleylovefarm.com",
+    "https://jdwireartstudio.com"
+  ],
+  "headers": [
+    "Content-Type",
+    "X-Amz-Date",
+    "Authorization",
+    "X-Api-Key",
+    "X-Amz-Security-Token",
+    "X-Amz-User-Agent"
+  ]
+}

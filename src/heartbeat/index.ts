@@ -1,9 +1,11 @@
 import { heartbeatService } from "./heartbeat-service";
+import { get200Response } from "../shared/response";
 
 const handler = (_event: any, _context: any, callback: any) => {
-  const response = heartbeatService();
+  const message = heartbeatService();
+  const response = get200Response(message);
 
-  callback(null, response);
+  return callback(null, response);
 };
 
 export { handler };
