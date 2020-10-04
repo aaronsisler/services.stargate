@@ -36,17 +36,6 @@ functions:
       - http:
           path: /heartbeat
           method: get
-  heartbeat-auth:
-    handler: dist/heartbeat/index.handler
-    description: Gateway health check. Responds with current time and a short message.
-    events:
-      - http:
-          path: /heartbeat-auth
-          method: get
-          cors:
-            origins: ${file(./deployment/cors.json):allowedOrigins}
-            headers: ${file(./deployment/cors.json):headers}
-            allowCredentials: false
   email:
     handler: dist/email/index.handler
     description: Used to send email with Simple Email Service (SES)

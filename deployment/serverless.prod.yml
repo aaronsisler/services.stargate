@@ -2,12 +2,21 @@ service: stargate
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs12.x
   stage: prod
   region: us-east-1
   role: arn:aws:iam::654918520080:role/Lambda-SES
-  apiKeys:
-    - stargate-${self:provider.stage}
+  resourcePolicy:
+    - Effect: Allow
+      Principal: "*"
+      Action: execute-api:Invoke
+      Resource:
+        - execute-api:/*/GET/*
+        - execute-api:/*/POST/*
+        - execute-api:/*/OPTIONS/*
+      Condition:
+        IpAddress:
+          aws:SourceIp: ${file(./deployment/cors.json):ipRange}
   usagePlan:
     quota:
       limit: 500
@@ -27,6 +36,10 @@ functions:
       - http:
           path: /heartbeat
           method: get
+          cors:
+            origins: ${file(./deployment/cors.json):allowedOrigins}
+            headers: ${file(./deployment/cors.json):headers}
+            allowCredentials: false
   email:
     handler: dist/email/index.handler
     description: Used to send email with Simple Email Service (SES)
@@ -34,8 +47,10 @@ functions:
       - http:
           path: /email
           method: post
-          private: true
-          cors: true
+          cors:
+            origins: ${file(./deployment/cors.json):allowedOrigins}
+            headers: ${file(./deployment/cors.json):headers}
+            allowCredentials: false
   email-with-attachment:
     handler: dist/email-with-attachment/index.handler
     description: Used to send email containing attachment with NodeMailer and Simple Email Service (SES)
@@ -43,8 +58,10 @@ functions:
       - http:
           path: /email-with-attachment
           method: post
-          private: true
-          cors: true
+          cors:
+            origins: ${file(./deployment/cors.json):allowedOrigins}
+            headers: ${file(./deployment/cors.json):headers}
+            allowCredentials: false
 
 plugins:
   - serverless-domain-manager
