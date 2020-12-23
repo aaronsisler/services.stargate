@@ -5,7 +5,7 @@ provider:
   runtime: nodejs12.x
   stage: prod
   region: us-east-1
-  role: arn:aws:iam::654918520080:role/Lambda-SES
+  role: arn:aws:iam::654918520080:role/API-LAMBDA-SES
   resourcePolicy:
     - Effect: Allow
       Principal: "*"
