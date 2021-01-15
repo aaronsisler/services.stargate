@@ -29,17 +29,13 @@ provider:
     NODE_ENV: prod
 
 functions:
-  heartbeat:
-    handler: dist/heartbeat/index.handler
+  health:
+    handler: dist/health/index.handler
     description: Gateway health check. Responds with current time and a short message.
     events:
       - http:
-          path: /heartbeat
+          path: /health
           method: get
-          cors:
-            origins: ${file(./deployment/cors.json):allowedOrigins}
-            headers: ${file(./deployment/cors.json):headers}
-            allowCredentials: false
   email:
     handler: dist/email/index.handler
     description: Used to send email with Simple Email Service (SES)
