@@ -29,12 +29,12 @@ provider:
     NODE_ENV: beta
 
 functions:
-  heartbeat:
-    handler: dist/heartbeat/index.handler
+  health:
+    handler: dist/health/index.handler
     description: Gateway health check. Responds with current time and a short message.
     events:
       - http:
-          path: /heartbeat
+          path: /health
           method: get
   email:
     handler: dist/email/index.handler
@@ -54,6 +54,10 @@ functions:
       - http:
           path: /email-with-attachment
           method: post
+          cors:
+            origins: ${file(./deployment/cors.json):allowedOrigins}
+            headers: ${file(./deployment/cors.json):headers}
+            allowCredentials: false
 
 plugins:
   - serverless-domain-manager
