@@ -61,10 +61,42 @@ const sendEmailWithAttachment = (inputs: any) => {
     attachments: [
       {
         filename: `${name} Application.pdf`,
-        path: encodedFile,
+        content: encodedFile,
+        encoding: "base64",
       },
     ],
   });
 };
 
-export { sendEmail, sendEmailWithAttachment };
+const sendEmailWithImage = (inputs: any) => {
+  const AWS = require("aws-sdk");
+  const SES = new AWS.SES({ region: "us-east-1" });
+
+  // create Nodemailer SES transporter
+  const transporter = nodemailer.createTransport({ SES });
+
+  const {
+    clientName,
+    encodedFile,
+    fileType,
+    name,
+    pointOfContactEmail,
+  } = inputs;
+
+  // send some mail
+  return transporter.sendMail({
+    from: `=?utf-8?B?${fromBase64}?= <${SERVICE_EMAIL_ADDRESS}>`,
+    to: pointOfContactEmail,
+    subject: `${clientName} Application Verification Image from ${name}`,
+    html: getEmailTemplate(inputs),
+    attachments: [
+      {
+        filename: `${name} Verification Image.${fileType}`,
+        content: encodedFile,
+        encoding: "base64",
+      },
+    ],
+  });
+};
+
+export { sendEmail, sendEmailWithAttachment, sendEmailWithImage };

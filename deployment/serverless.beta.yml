@@ -6,6 +6,8 @@ provider:
   stage: beta
   region: us-east-1
   role: arn:aws:iam::654918520080:role/API-LAMBDA-SES
+  apiGateway:
+    shouldStartNameWithService: true
   resourcePolicy:
     - Effect: Allow
       Principal: "*"
@@ -53,6 +55,17 @@ functions:
     events:
       - http:
           path: /email-with-attachment
+          method: post
+          cors:
+            origins: ${file(./deployment/cors.json):allowedOrigins}
+            headers: ${file(./deployment/cors.json):headers}
+            allowCredentials: false
+  email-with-image:
+    handler: dist/email-with-image/index.handler
+    description: Used to send email containing image with NodeMailer and Simple Email Service (SES)
+    events:
+      - http:
+          path: /email-with-image
           method: post
           cors:
             origins: ${file(./deployment/cors.json):allowedOrigins}

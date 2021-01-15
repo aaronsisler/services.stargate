@@ -7,6 +7,10 @@ const validateInputs = (data: any) => {
     return false;
   }
 
+  if (data.isImage && data.fileType === undefined) {
+    return false;
+  }
+
   return true;
 };
 
