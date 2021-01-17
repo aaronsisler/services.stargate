@@ -1,17 +1,39 @@
-const validateInputs = (data: any) => {
-  if (data.pointOfContactEmail === undefined || data.name === undefined) {
+const validateEmailAttachmentInputs = (data: any) => {
+  if (!validateCommonInputs(data)) {
     return false;
   }
 
-  if (data.encodedFile === undefined && data.emailAddress === undefined) {
-    return false;
-  }
-
-  if (data.isImage && data.fileType === undefined) {
+  if (data.encodedFile === undefined && data.fileType === undefined) {
     return false;
   }
 
   return true;
 };
 
-export { validateInputs };
+const validateEmailInputs = (data: any) => {
+  if (!validateCommonInputs(data)) {
+    return false;
+  }
+
+  if (data.emailAddress === undefined) {
+    return false;
+  }
+
+  if (data.phoneNumber && data.phoneNumber.length !== 10) {
+    return false;
+  }
+
+  return true;
+};
+
+const validateCommonInputs = (data: any) => {
+  if (data.pointOfContactEmail === undefined) {
+    return false;
+  }
+
+  if (data.name === undefined) {
+    return false;
+  }
+};
+
+export { validateEmailAttachmentInputs, validateEmailInputs };

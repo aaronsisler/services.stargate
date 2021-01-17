@@ -1,15 +1,15 @@
-import { validateInputs } from "../shared/validate-inputs";
 import { sendEmail } from "../shared/email-service";
 import {
   get200Response,
   get400Response,
   get500Response,
 } from "../shared/response";
+import { validateEmailInputs } from "../shared/validate-inputs";
 
 const handler = async (event: any, _context: any, callback: any) => {
   const data = JSON.parse(event.body);
 
-  if (!validateInputs(data)) {
+  if (!validateEmailInputs(data)) {
     return callback(null, get400Response());
   }
 
