@@ -12,6 +12,7 @@ const handler = async (event: any, _context: any, callback: any) => {
   const apiVersion = event.headers["api-version"];
 
   const inputs = !apiVersion ? versionOneAttachmentAdapter(data) : data;
+  console.log(inputs);
 
   if (!validateEmailAttachmentInputs(inputs)) {
     return callback(null, get400Response());
