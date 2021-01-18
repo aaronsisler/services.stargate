@@ -60,17 +60,6 @@ functions:
             origins: ${file(./deployment/cors.json):allowedOrigins}
             headers: ${file(./deployment/cors.json):headers}
             allowCredentials: false
-  email-with-image:
-    handler: dist/email-with-image/index.handler
-    description: Used to send email containing image with NodeMailer and Simple Email Service (SES)
-    events:
-      - http:
-          path: /email-with-image
-          method: post
-          cors:
-            origins: ${file(./deployment/cors.json):allowedOrigins}
-            headers: ${file(./deployment/cors.json):headers}
-            allowCredentials: false
 
 plugins:
   - serverless-domain-manager

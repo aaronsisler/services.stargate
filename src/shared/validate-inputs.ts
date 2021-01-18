@@ -31,9 +31,11 @@ const validateCommonInputs = (data: any) => {
     return false;
   }
 
-  if (data.name === undefined) {
+  if (data.subject === undefined) {
     return false;
   }
+
+  return true;
 };
 
 export { validateEmailAttachmentInputs, validateEmailInputs };

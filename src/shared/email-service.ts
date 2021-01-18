@@ -5,13 +5,9 @@ import { getEmailTemplate } from "./email-template";
 const fromBase64 = Buffer.from(SERVICE_EMAIL_ADDRESS).toString("base64");
 
 const getEmailParams = (inputs: any) => {
-  const { clientName, emailAddress: replyTo, pointOfContactEmail } = inputs;
+  const { emailAddress: replyTo, pointOfContactEmail, subject } = inputs;
 
   const htmlBody = getEmailTemplate(inputs);
-
-  const subjectData = clientName
-    ? `${clientName} Contact Request`
-    : `Contact Request`;
 
   return {
     Destination: {
@@ -26,7 +22,7 @@ const getEmailParams = (inputs: any) => {
       },
       Subject: {
         Charset: "UTF-8",
-        Data: subjectData,
+        Data: subject,
       },
     },
     ReplyToAddresses: [replyTo],

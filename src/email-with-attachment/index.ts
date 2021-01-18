@@ -5,16 +5,20 @@ import {
   get500Response,
 } from "../shared/response";
 import { validateEmailAttachmentInputs } from "../shared/validate-inputs";
+import { versionOneAttachmentAdapter } from "../shared/version-adapter";
 
 const handler = async (event: any, _context: any, callback: any) => {
   const data = JSON.parse(event.body);
+  const apiVersion = event.headers["API-Version"];
 
-  if (!validateEmailAttachmentInputs(data)) {
+  const inputs = !apiVersion ? versionOneAttachmentAdapter(data) : data;
+
+  if (!validateEmailAttachmentInputs(inputs)) {
     return callback(null, get400Response());
   }
 
   try {
-    await sendEmailWithAttachment(data);
+    await sendEmailWithAttachment(inputs);
 
     return callback(null, get200Response());
   } catch (error) {
