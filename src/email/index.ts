@@ -9,7 +9,7 @@ import { versionOneEmailAdapter } from "../shared/version-adapter";
 
 const handler = async (event: any, _context: any, callback: any) => {
   const data = JSON.parse(event.body);
-  const apiVersion = event.headers["API-Version"];
+  const apiVersion = event.headers["api-version"];
 
   const inputs = !apiVersion ? versionOneEmailAdapter(data) : data;
 
