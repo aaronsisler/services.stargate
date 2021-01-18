@@ -57,8 +57,7 @@ const sendEmailWithAttachment = (inputs: any) => {
     attachments: [
       {
         filename,
-        content: encodedFile,
-        encoding: "base64",
+        path: encodedFile,
       },
     ],
   });
