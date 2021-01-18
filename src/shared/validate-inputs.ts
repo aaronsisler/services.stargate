@@ -3,7 +3,7 @@ const validateEmailAttachmentInputs = (data: any) => {
     return false;
   }
 
-  if (data.encodedFile === undefined && data.fileType === undefined) {
+  if (data.encodedFile === undefined || data.filename === undefined) {
     return false;
   }
 
