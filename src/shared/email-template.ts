@@ -17,7 +17,7 @@ const getEmailTemplate = (inputs: any, hasAttachment = false) => {
       <body>
         ${
           hasAttachment
-            ? getBodyHeader("Someone has sent you an application.")
+            ? getBodyHeader("Someone has sent you an attachment.")
             : getBodyHeader("Someone has contacted you for more information.")
         }
         <table class="contact_info">`;

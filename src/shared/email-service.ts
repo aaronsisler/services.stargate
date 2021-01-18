@@ -5,13 +5,9 @@ import { getEmailTemplate } from "./email-template";
 const fromBase64 = Buffer.from(SERVICE_EMAIL_ADDRESS).toString("base64");
 
 const getEmailParams = (inputs: any) => {
-  const { clientName, emailAddress: replyTo, pointOfContactEmail } = inputs;
+  const { emailAddress: replyTo, pointOfContactEmail, subject } = inputs;
 
   const htmlBody = getEmailTemplate(inputs);
-
-  const subjectData = clientName
-    ? `${clientName} Contact Request`
-    : `Contact Request`;
 
   return {
     Destination: {
@@ -26,7 +22,7 @@ const getEmailParams = (inputs: any) => {
       },
       Subject: {
         Charset: "UTF-8",
-        Data: subjectData,
+        Data: subject,
       },
     },
     ReplyToAddresses: [replyTo],
@@ -50,18 +46,19 @@ const sendEmailWithAttachment = (inputs: any) => {
   // create Nodemailer SES transporter
   const transporter = nodemailer.createTransport({ SES });
 
-  const { clientName, encodedFile, name, pointOfContactEmail } = inputs;
+  const { encodedFile, filename, pointOfContactEmail, subject } = inputs;
 
   // send some mail
   return transporter.sendMail({
     from: `=?utf-8?B?${fromBase64}?= <${SERVICE_EMAIL_ADDRESS}>`,
     to: pointOfContactEmail,
-    subject: `${clientName} Application Submission from ${name}`,
+    subject,
     html: getEmailTemplate(inputs),
     attachments: [
       {
-        filename: `${name} Application.pdf`,
-        path: encodedFile,
+        filename,
+        content: encodedFile,
+        encoding: "base64",
       },
     ],
   });

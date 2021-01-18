@@ -6,6 +6,8 @@ provider:
   stage: beta
   region: us-east-1
   role: arn:aws:iam::654918520080:role/API-LAMBDA-SES
+  apiGateway:
+    shouldStartNameWithService: true
   resourcePolicy:
     - Effect: Allow
       Principal: "*"
