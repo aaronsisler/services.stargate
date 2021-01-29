@@ -28,9 +28,7 @@ jobs:
           NEXT_PUBLIC_SERVICES_API_KEY: ${{ secrets.NEXT_PUBLIC_SERVICES_API_KEY }}
 
       - name: Deploy
-        uses: serverless/github-action@master
-        with:
-          args: deploy --config ./deployment/serverless.prod.yml
+        run: npx serverless deploy --config ./deployment/serverless.prod.yml
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
