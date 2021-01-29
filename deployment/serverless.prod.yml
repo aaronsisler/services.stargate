@@ -30,6 +30,12 @@ provider:
   environment:
     NODE_ENV: prod
 
+package:
+  exclude:
+    - src/**
+    - deployment/**
+    - "**.*"
+
 functions:
   health:
     handler: dist/health/index.handler
