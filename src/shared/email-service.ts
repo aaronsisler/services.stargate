@@ -8,7 +8,7 @@ const fromBase64 = Buffer.from(SERVICE_EMAIL_ADDRESS).toString("base64");
 const getEmailParams = (inputs: any) => {
   const { emailAddress: replyTo, pointOfContactEmail, subject } = inputs;
 
-  logClient(pointOfContactEmail, new Date(Date.now()).getMonth());
+  logClient(pointOfContactEmail);
 
   const htmlBody = getEmailTemplate(inputs);
 
@@ -51,7 +51,7 @@ const sendEmailWithAttachment = (inputs: any) => {
 
   const { encodedFile, filename, pointOfContactEmail, subject } = inputs;
 
-  logClient(pointOfContactEmail, new Date(Date.now()).getMonth());
+  logClient(pointOfContactEmail);
 
   // send some mail
   return transporter.sendMail({
