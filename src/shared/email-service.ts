@@ -1,11 +1,14 @@
 import nodemailer from "nodemailer";
 import { SERVICE_EMAIL_ADDRESS } from "./config";
 import { getEmailTemplate } from "./email-template";
+import { logClient } from "../shared/logging-utils";
 
 const fromBase64 = Buffer.from(SERVICE_EMAIL_ADDRESS).toString("base64");
 
 const getEmailParams = (inputs: any) => {
   const { emailAddress: replyTo, pointOfContactEmail, subject } = inputs;
+
+  logClient(pointOfContactEmail);
 
   const htmlBody = getEmailTemplate(inputs);
 
@@ -47,6 +50,8 @@ const sendEmailWithAttachment = (inputs: any) => {
   const transporter = nodemailer.createTransport({ SES });
 
   const { encodedFile, filename, pointOfContactEmail, subject } = inputs;
+
+  logClient(pointOfContactEmail);
 
   // send some mail
   return transporter.sendMail({
