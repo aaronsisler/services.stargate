@@ -8,25 +8,25 @@ provider:
   role: arn:aws:iam::654918520080:role/API-LAMBDA-SES
   apiGateway:
     shouldStartNameWithService: true
-  resourcePolicy:
-    - Effect: Allow
-      Principal: "*"
-      Action: execute-api:Invoke
-      Resource:
-        - execute-api:/*/GET/*
-        - execute-api:/*/POST/*
-        - execute-api:/*/OPTIONS/*
-      Condition:
-        IpAddress:
-          aws:SourceIp: ${file(./deployment/cors.json):ipRange}
-  usagePlan:
-    quota:
-      limit: 500
-      offset: 0
-      period: MONTH
-    throttle:
-      burstLimit: 20
-      rateLimit: 10
+    usagePlan:
+      quota:
+        limit: 500
+        offset: 0
+        period: MONTH
+      throttle:
+        burstLimit: 20
+        rateLimit: 10
+    resourcePolicy:
+      - Effect: Allow
+        Principal: "*"
+        Action: execute-api:Invoke
+        Resource:
+          - execute-api:/*/GET/*
+          - execute-api:/*/POST/*
+          - execute-api:/*/OPTIONS/*
+        Condition:
+          IpAddress:
+            aws:SourceIp: ${file(./deployment/cors.json):ipRange}
   environment:
     NODE_ENV: beta
 
