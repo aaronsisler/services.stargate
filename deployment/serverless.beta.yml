@@ -44,25 +44,51 @@ functions:
     events:
       - http:
           path: /health
-          method: get
+          method: GET
+
+  error:
+    handler: dist/error/index.handler
+    description: Used to trigger a 500 HTTP Response code for alarm testing
+    events:
+      - http:
+          path: /error
+          method: GET
+          cors:
+            origins: ${file(./deployment/cors.json):allowedOrigins}
+            headers: ${file(./deployment/cors.json):headers}
+            allowCredentials: false
+
+  bad-request:
+    handler: dist/bad-request/index.handler
+    description: Used to trigger a 400 HTTP Response code for alarm testing
+    events:
+      - http:
+          path: /bad-request
+          method: POST
+          cors:
+            origins: ${file(./deployment/cors.json):allowedOrigins}
+            headers: ${file(./deployment/cors.json):headers}
+            allowCredentials: false
+
   email:
     handler: dist/email/index.handler
     description: Used to send email with Simple Email Service (SES)
     events:
       - http:
           path: /email
-          method: post
+          method: POST
           cors:
             origins: ${file(./deployment/cors.json):allowedOrigins}
             headers: ${file(./deployment/cors.json):headers}
             allowCredentials: false
+
   email-with-attachment:
     handler: dist/email-with-attachment/index.handler
     description: Used to send email containing attachment with NodeMailer and Simple Email Service (SES)
     events:
       - http:
           path: /email-with-attachment
-          method: post
+          method: POST
           cors:
             origins: ${file(./deployment/cors.json):allowedOrigins}
             headers: ${file(./deployment/cors.json):headers}
