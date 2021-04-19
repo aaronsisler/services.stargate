@@ -52,7 +52,7 @@ functions:
     events:
       - http:
           path: /error
-          method: GET
+          method: POST
           cors:
             origins: ${file(./deployment/cors.json):allowedOrigins}
             headers: ${file(./deployment/cors.json):headers}
