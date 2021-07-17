@@ -4,25 +4,30 @@ import {
   get400Response,
   get500Response,
 } from "../shared/response";
-import { logRunTime } from "../shared/logging-utils";
+import { generateShortUuid } from "../shared/generate-uuid";
+import { logRunTime, logTracer } from "../shared/logging-utils";
 import { validateEmailInputs } from "../shared/validate-inputs";
 import { versionOneEmailAdapter } from "../shared/version-adapter";
 
 const handler = async (event: any, _context: any, callback: any) => {
+  const traceId: string = generateShortUuid();
+  logTracer(traceId, "EMAIL__START");
   const data = JSON.parse(event.body);
   const apiVersion = event.headers["api-version"];
 
+  logTracer(traceId, "EMAIL__INPUTS");
   const inputs = !apiVersion ? versionOneEmailAdapter(data) : data;
 
+  logTracer(traceId, "EMAIL__VALIDATE_INPUTS");
   if (!validateEmailInputs(inputs)) {
     return callback(null, get400Response());
   }
 
   try {
     const startTime = Date.now();
+    logTracer(traceId, "EMAIL__SEND_EMAIL");
     await sendEmail(inputs);
-    const totalRunTime = Date.now() - startTime;
-    logRunTime("EMAIL_HANDLER", totalRunTime);
+    logRunTime("EMAIL_HANDLER", startTime);
 
     return callback(null, get200Response());
   } catch (error) {

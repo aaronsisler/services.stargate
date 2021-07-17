@@ -5,6 +5,7 @@ provider:
   runtime: nodejs12.x
   stage: beta
   region: us-east-1
+  logRetentionInDays: 14
   iam:
     role: arn:aws:iam::654918520080:role/API-LAMBDA-SES
   apiGateway:
@@ -54,9 +55,9 @@ functions:
           path: /error
           method: POST
           cors:
+            enabled: true
             origins: ${file(./deployment/cors.json):allowedOrigins}
             headers: ${file(./deployment/cors.json):headers}
-            allowCredentials: false
 
   bad-request:
     handler: dist/bad-request/index.handler
@@ -66,9 +67,9 @@ functions:
           path: /bad-request
           method: POST
           cors:
+            enabled: true
             origins: ${file(./deployment/cors.json):allowedOrigins}
             headers: ${file(./deployment/cors.json):headers}
-            allowCredentials: false
 
   email:
     handler: dist/email/index.handler
@@ -78,9 +79,9 @@ functions:
           path: /email
           method: POST
           cors:
+            enabled: true
             origins: ${file(./deployment/cors.json):allowedOrigins}
             headers: ${file(./deployment/cors.json):headers}
-            allowCredentials: false
 
   email-with-attachment:
     handler: dist/email-with-attachment/index.handler
@@ -90,9 +91,9 @@ functions:
           path: /email-with-attachment
           method: POST
           cors:
+            enabled: true
             origins: ${file(./deployment/cors.json):allowedOrigins}
             headers: ${file(./deployment/cors.json):headers}
-            allowCredentials: false
 
 plugins:
   - serverless-domain-manager
