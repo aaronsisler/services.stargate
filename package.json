@@ -9,6 +9,7 @@
     "prebuild": "npm run clear:dist && npm run clear:serverless",
     "build": "tsc",
     "delete:beta": "sls remove --config=./deployment/serverless.beta.yml",
+    "delete:prod": "sls remove --config=./deployment/serverless.prod.yml",
     "deploy:beta": "npm run build && sls deploy --config ./deployment/serverless.beta.yml && npm run clear:serverless",
     "deploy:prod": "npm run build && sls deploy --config ./deployment/serverless.prod.yml && npm run clear:serverless",
     "domain:beta": "sls create_domain --config=./deployment/serverless.beta.yml",
