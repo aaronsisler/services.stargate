@@ -18,4 +18,9 @@ const buildTimeStamp = () => {
   return `${now.getFullYear()}-${now.getMonth()}-${now.getDay()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}:${now.getMilliseconds()}`;
 };
 
-export { logClient, logRunTime, logTracer };
+const logError = (caller: string, errorMessage: string): void => {
+  console.warn(`ERROR: ${caller}`);
+  console.warn(errorMessage);
+};
+
+export { logError, logClient, logRunTime, logTracer };

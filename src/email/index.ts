@@ -1,17 +1,32 @@
+import { APIGatewayProxyEvent } from "aws-lambda";
+import { validateAuthorization } from "../shared/authorization-service";
 import { sendEmail } from "../shared/email-service";
 import {
   get200Response,
   get400Response,
+  get403Response,
   get500Response,
 } from "../shared/response";
 import { generateShortUuid } from "../shared/generate-uuid";
-import { logRunTime, logTracer } from "../shared/logging-utils";
+import { logError, logRunTime, logTracer } from "../shared/logging-utils";
 import { validateEmailInputs } from "../shared/validate-inputs";
 import { versionOneEmailAdapter } from "../shared/version-adapter";
 
-const handler = async (event: any, _context: any, callback: any) => {
+const handler = async (
+  event: APIGatewayProxyEvent,
+  _context: any,
+  callback: any
+) => {
   const traceId: string = generateShortUuid();
   logTracer(traceId, "EMAIL__START");
+
+  if (!validateAuthorization(event)) {
+    logTracer(traceId, "EMAIL__AUTH_FAILED");
+    callback(null, get403Response());
+    return;
+  }
+
+  logTracer(traceId, "EMAIL__EVENT_PARSING");
   const data = JSON.parse(event.body);
   const apiVersion = event.headers["api-version"];
 
@@ -31,7 +46,7 @@ const handler = async (event: any, _context: any, callback: any) => {
 
     return callback(null, get200Response());
   } catch (error) {
-    console.log(error);
+    logError("EMAIL", error);
 
     return callback(null, get500Response());
   }

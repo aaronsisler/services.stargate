@@ -26,9 +26,6 @@ provider:
           - execute-api:/*/GET/*
           - execute-api:/*/POST/*
           - execute-api:/*/OPTIONS/*
-        Condition:
-          IpAddress:
-            aws:SourceIp: ${file(./deployment/cors.json):ipRange}
   environment:
     NODE_ENV: beta
 
@@ -47,6 +44,17 @@ functions:
           path: /health
           method: GET
 
+  authorize:
+    handler: dist/authorize/index.handler
+    description: Gateway authorize check. Responds with 200 and cute message depending on auth level.
+    events:
+      - http:
+          path: /authorize
+          method: GET
+          cors:
+            enabled: true
+            headers: ${file(./deployment/cors.json):headers}
+
   error:
     handler: dist/error/index.handler
     description: Used to trigger a 500 HTTP Response code for alarm testing
@@ -56,7 +64,6 @@ functions:
           method: POST
           cors:
             enabled: true
-            origins: ${file(./deployment/cors.json):allowedOrigins}
             headers: ${file(./deployment/cors.json):headers}
 
   bad-request:
@@ -68,7 +75,6 @@ functions:
           method: POST
           cors:
             enabled: true
-            origins: ${file(./deployment/cors.json):allowedOrigins}
             headers: ${file(./deployment/cors.json):headers}
 
   email:
@@ -80,7 +86,6 @@ functions:
           method: POST
           cors:
             enabled: true
-            origins: ${file(./deployment/cors.json):allowedOrigins}
             headers: ${file(./deployment/cors.json):headers}
 
   email-with-attachment:
@@ -92,7 +97,6 @@ functions:
           method: POST
           cors:
             enabled: true
-            origins: ${file(./deployment/cors.json):allowedOrigins}
             headers: ${file(./deployment/cors.json):headers}
 
 plugins:

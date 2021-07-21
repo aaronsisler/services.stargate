@@ -17,10 +17,16 @@ const get400Response = () => ({
   body: "Invalid Inputs",
 });
 
+const get403Response = () => ({
+  ...baseResponse,
+  statusCode: 403,
+  body: "Unauthorized",
+});
+
 const get500Response = () => ({
   ...baseResponse,
   statusCode: 500,
   body: "Something blew up",
 });
 
-export { get200Response, get400Response, get500Response };
+export { get200Response, get400Response, get403Response, get500Response };
