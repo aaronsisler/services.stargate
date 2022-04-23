@@ -7,12 +7,16 @@ const validateAuthorization = (event: APIGatewayProxyEvent): boolean => {
   const trimmedReferer = referer.trim().replace(/\/$/, "");
 
   let isRefererAuthorized: boolean = false;
+  console.log("Referer");
+  console.log(referer);
 
   if (referer) {
     isRefererAuthorized = VALID_REFERERS.some(
       (allowedReferer: string) => allowedReferer == trimmedReferer
     );
   }
+  console.log("isRefererAuthorized");
+  console.log(isRefererAuthorized);
 
   if (isRefererAuthorized) {
     return true;
