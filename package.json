@@ -11,7 +11,7 @@
     "config:copy:beta": "cp ./deployment/serverless.beta.yml ./serverless.yml",
     "config:copy:prod": "cp ./deployment/serverless.prod.yml ./serverless.yml",
     "config:delete": "rm ./serverless.yml",
-    "delete:beta": "sls remove --config=./deployment/serverless.beta.yml",
+    "delete:beta": "npm run config:delete; npm run config:copy:beta && sls remove; npm run config:delete",
     "delete:prod": "sls remove --config=./deployment/serverless.prod.yml",
     "deploy:beta": "npm run build && sls deploy --config ./deployment/serverless.beta.yml && npm run clear:serverless",
     "deploy:prod": "npm run build && sls deploy --config ./deployment/serverless.prod.yml && npm run clear:serverless",
