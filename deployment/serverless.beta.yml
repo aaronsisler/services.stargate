@@ -94,6 +94,18 @@ functions:
           cors:
             headers: ${file(./deployment/cors.json):headers}
 
+  payment:
+    handler: dist/payment/index.handler
+    description: Used to send payment to Square from Web SDK
+    environment:
+      SQUARE_ACCESS_TOKEN_DRCG_PROPERTIES: TACO_DRCG_PROPERTIES
+    events:
+      - http:
+          path: /payment
+          method: POST
+          cors:
+            headers: ${file(./deployment/cors.json):headers}
+
 plugins:
   - serverless-domain-manager
 

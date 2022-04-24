@@ -10,7 +10,14 @@ dist/
 coverage/
 
 # secrets
+.env.*
 
-# local error files
+# debug
 npm-debug.log*
-sh.exe.stackdump
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# misc
+.DS_Store
+**/.DS_Store
