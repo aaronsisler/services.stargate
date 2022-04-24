@@ -1,18 +1,13 @@
 import { APIGatewayProxyEvent } from "aws-lambda";
-import { get200Response, get403Response } from "../shared/response";
+import { get200Response } from "../shared/response";
 import { validateAuthorization } from "../shared/authorization-service";
 
-const handler = (event: APIGatewayProxyEvent, _context: any, callback: any) => {
+const handler = async (event: APIGatewayProxyEvent, _context: any) => {
   if (!validateAuthorization(event)) {
-    callback(null, get200Response("You are not authorized!"));
-    return;
+    return get200Response("You are not authorized!");
   }
 
-  console.log("Below IF validateAuthorization");
-
-  const response = get200Response("You are authorized!");
-
-  return callback(null, response);
+  return get200Response("You are authorized!");
 };
 
 export { handler };
