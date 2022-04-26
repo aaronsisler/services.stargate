@@ -1,11 +1,12 @@
 {
   "headers": [
-    "Content-Type",
-    "X-Amz-Date",
+    "Api-Version",
     "Authorization",
+    "Content-Type",
+    "X-Access-Token-Client",
+    "X-Amz-Date",
     "X-Api-Key",
     "X-Amz-Security-Token",
-    "X-Amz-User-Agent",
-    "Api-Version"
+    "X-Amz-User-Agent"
   ]
 }

@@ -19,4 +19,6 @@ export const VALID_REFERERS: string[] = [
   "https://valleylovefarm.eandbsolutions.com",
   "https://elderhelpnc.eandbsolutions.com",
   "https://hunterhill.eandbsolutions.com",
+  "https://beta.drcgproperties.com",
+  "https://drcgproperties.com",
 ];

@@ -3,6 +3,10 @@ import { Client, CreatePaymentResponse, Environment } from "square";
 
 import { generateUuid } from "./generate-uuid";
 
+BigInt.prototype["toJSON"] = function () {
+  return this.toString();
+};
+
 interface PaymentEvent {
   accessTokenClient: string;
   amount: bigint;
@@ -11,7 +15,8 @@ interface PaymentEvent {
 
 const parsePaymentEvent = (event: APIGatewayProxyEvent): PaymentEvent => {
   const { body, headers } = event;
-  const { ACCESS_TOKEN_CLIENT: accessTokenClient = "" } = headers;
+  const { "x-access-token-client": accessTokenClient = "" } = headers;
+
   const data = JSON.parse(body);
   const { amount, sourceId } = data;
 
@@ -28,6 +33,7 @@ const sendPayment = async (
   event: APIGatewayProxyEvent
 ): Promise<CreatePaymentResponse> => {
   const { accessTokenClient, amount, sourceId } = parsePaymentEvent(event);
+
   const accessToken = retrieveAccessToken(accessTokenClient);
 
   const { paymentsApi } = new Client({
@@ -43,7 +49,6 @@ const sendPayment = async (
       amount,
     },
   });
-  console.log(result);
 
   return result;
 };
