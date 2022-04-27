@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent } from "aws-lambda";
-import { Client, CreatePaymentResponse, Environment } from "square";
+import { Address, Client, CreatePaymentResponse, Environment } from "square";
 
 import { generateUuid } from "./generate-uuid";
 
@@ -10,6 +10,9 @@ BigInt.prototype["toJSON"] = function () {
 interface PaymentEvent {
   accessTokenClient: string;
   amount: bigint;
+  billingAddress: Address;
+  customerInfo: any;
+  note: string;
   sourceId: string;
 }
 
@@ -18,9 +21,16 @@ const parsePaymentEvent = (event: APIGatewayProxyEvent): PaymentEvent => {
   const { "x-access-token-client": accessTokenClient = "" } = headers;
 
   const data = JSON.parse(body);
-  const { amount, sourceId } = data;
+  const { amount, billingAddress, customerInfo, note, sourceId } = data;
 
-  return { accessTokenClient, amount, sourceId };
+  return {
+    accessTokenClient,
+    amount,
+    billingAddress,
+    customerInfo,
+    note,
+    sourceId,
+  };
 };
 
 const retrieveAccessToken = (accessTokenClient: string): string => {
@@ -32,13 +42,26 @@ const retrieveAccessToken = (accessTokenClient: string): string => {
 const sendPayment = async (
   event: APIGatewayProxyEvent
 ): Promise<CreatePaymentResponse> => {
-  const { accessTokenClient, amount, sourceId } = parsePaymentEvent(event);
+  const {
+    accessTokenClient,
+    amount,
+    billingAddress,
+    customerInfo,
+    note,
+    sourceId,
+  } = parsePaymentEvent(event);
 
   const accessToken = retrieveAccessToken(accessTokenClient);
 
-  const { paymentsApi } = new Client({
+  const { customersApi, paymentsApi } = new Client({
     accessToken,
     environment: Environment.Sandbox,
+  });
+
+  const { result: customerResult } = await customersApi.createCustomer({
+    idempotencyKey: generateUuid(),
+    ...customerInfo,
+    address: billingAddress,
   });
 
   const { result } = await paymentsApi.createPayment({
@@ -48,6 +71,8 @@ const sendPayment = async (
       currency: "USD",
       amount,
     },
+    customerId: customerResult.customer.id,
+    note,
   });
 
   return result;
