@@ -96,7 +96,7 @@ functions:
 
   payment:
     handler: dist/payment/index.handler
-    description: Used to send payment to Square from Web SDK
+    description: Used to send payment to third party payment provider
     events:
       - http:
           path: /payment
