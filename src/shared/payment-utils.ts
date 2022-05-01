@@ -2,21 +2,13 @@ import { APIGatewayProxyEvent } from "aws-lambda";
 import { Address, Client, CreatePaymentResponse, Environment } from "square";
 
 import { generateUuid } from "./generate-uuid";
+import { CustomerInfo, CustomerInfoDto } from "../models/customer";
 
 BigInt.prototype["toJSON"] = function () {
   return this.toString();
 };
 
-interface CustomerInfo {
-  givenName: string;
-  familyName: string;
-  companyName: string;
-  emailAddress: string;
-  phoneNumber: string;
-  address: Address;
-}
-
-interface PaymentEvent {
+interface PaymentRequest {
   accessTokenClient: string;
   amount: bigint;
   customerInfo: CustomerInfo;
@@ -24,17 +16,44 @@ interface PaymentEvent {
   sourceId: string;
 }
 
-const parsePaymentEvent = (event: APIGatewayProxyEvent): PaymentEvent => {
+const mapCustomerInfo = (customerInfoDto: CustomerInfoDto): CustomerInfo => {
+  const address: Address = Object.assign(
+    {},
+    {
+      addressLine1: customerInfoDto.address.addressLine1,
+      addressLine2: customerInfoDto.address.addressLine2,
+      locality: customerInfoDto.address.city,
+      administrativeDistrictLevel1: customerInfoDto.address.state,
+      postalCode: customerInfoDto.address.postalCode,
+    }
+  );
+
+  const customerInfo: CustomerInfo = Object.assign(
+    {},
+    {
+      givenName: customerInfoDto.firstName,
+      familyName: customerInfoDto.lastName,
+      companyName: customerInfoDto.companyName,
+      emailAddress: customerInfoDto.emailAddress,
+      phoneNumber: customerInfoDto.phoneNumber,
+      address,
+    }
+  );
+
+  return customerInfo;
+};
+
+const parsePaymentRequest = (event: APIGatewayProxyEvent): PaymentRequest => {
   const { body, headers } = event;
   const { "x-access-token-client": accessTokenClient = "" } = headers;
 
   const data = JSON.parse(body);
-  const { amount, customerInfo, note, sourceId } = data;
+  const { amount, customerInfo: rawCustomerInfo, note, sourceId } = data;
 
   return {
     accessTokenClient,
     amount,
-    customerInfo,
+    customerInfo: mapCustomerInfo(rawCustomerInfo),
     note,
     sourceId,
   };
@@ -55,7 +74,7 @@ const sendPayment = async (
     customerInfo,
     note,
     sourceId,
-  } = parsePaymentEvent(event);
+  } = parsePaymentRequest(event);
 
   const accessToken = retrieveAccessToken(accessTokenClient);
 
