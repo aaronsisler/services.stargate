@@ -61,6 +61,8 @@ const parsePaymentRequest = (event: APIGatewayProxyEvent): PaymentRequest => {
 
 const retrieveAccessToken = (accessTokenClient: string): string => {
   const environmentVariableName = `PAYMENT_ACCESS_TOKEN_${accessTokenClient}`;
+  console.log("environmentVariableName");
+  console.log(environmentVariableName);
 
   return process.env[environmentVariableName];
 };
@@ -77,6 +79,8 @@ const sendPayment = async (
   } = parsePaymentRequest(event);
 
   const accessToken = retrieveAccessToken(accessTokenClient);
+  console.log("accessToken");
+  console.log(accessToken);
 
   const { customersApi, paymentsApi } = new Client({
     accessToken,
