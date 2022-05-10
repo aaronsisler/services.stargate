@@ -22,9 +22,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # - name: Build
-      #   run: npm run build
-
       - name: Deploy
         run: npm run deploy:beta
         env:
