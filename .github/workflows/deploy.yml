@@ -17,18 +17,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
-        run: npm run build
-        env:
-          NEXT_PUBLIC_SERVICES_API_KEY: ${{ secrets.NEXT_PUBLIC_SERVICES_API_KEY }}
-
       - name: Deploy
-        run: npx serverless deploy --config ./deployment/serverless.prod.yml
+        run: npm run deploy:prod
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          PAYMENT_ACCESS_TOKEN_DRCG_PROPERTIES: ${{ secrets.PAYMENT_ACCESS_TOKEN_DRCG_PROPERTIES }}
+          PAYMENT_ACCESS_TOKEN_EB_SOLUTIONS: ${{ secrets.PAYMENT_ACCESS_TOKEN_EB_SOLUTIONS }}

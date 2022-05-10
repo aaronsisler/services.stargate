@@ -2,7 +2,7 @@ service: stargate
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs14.x
   stage: beta
   region: us-east-1
   logRetentionInDays: 14
@@ -52,7 +52,6 @@ functions:
           path: /authorize
           method: GET
           cors:
-            enabled: true
             headers: ${file(./deployment/cors.json):headers}
 
   error:
@@ -63,7 +62,6 @@ functions:
           path: /error
           method: POST
           cors:
-            enabled: true
             headers: ${file(./deployment/cors.json):headers}
 
   bad-request:
@@ -74,7 +72,6 @@ functions:
           path: /bad-request
           method: POST
           cors:
-            enabled: true
             headers: ${file(./deployment/cors.json):headers}
 
   email:
@@ -85,7 +82,6 @@ functions:
           path: /email
           method: POST
           cors:
-            enabled: true
             headers: ${file(./deployment/cors.json):headers}
 
   email-with-attachment:
@@ -96,7 +92,19 @@ functions:
           path: /email-with-attachment
           method: POST
           cors:
-            enabled: true
+            headers: ${file(./deployment/cors.json):headers}
+
+  payment:
+    handler: dist/payment/index.handler
+    description: Used to send payment to third party payment provider
+    environment:
+      PAYMENT_ACCESS_TOKEN_DRCG_PROPERTIES: ${env:PAYMENT_ACCESS_TOKEN_DRCG_PROPERTIES}
+      PAYMENT_ACCESS_TOKEN_EB_SOLUTIONS: ${env:PAYMENT_ACCESS_TOKEN_EB_SOLUTIONS}
+    events:
+      - http:
+          path: /payment
+          method: POST
+          cors:
             headers: ${file(./deployment/cors.json):headers}
 
 plugins:

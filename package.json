@@ -1,6 +1,6 @@
 {
   "name": "services.stargate",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "clear:dist": "rm -rf ./dist",
@@ -8,20 +8,24 @@
     "lint": "eslint \"./**/*.{ts,js}\"",
     "prebuild": "npm run clear:dist && npm run clear:serverless",
     "build": "tsc",
-    "delete:beta": "sls remove --config=./deployment/serverless.beta.yml",
-    "delete:prod": "sls remove --config=./deployment/serverless.prod.yml",
-    "deploy:beta": "npm run build && sls deploy --config ./deployment/serverless.beta.yml && npm run clear:serverless",
-    "deploy:prod": "npm run build && sls deploy --config ./deployment/serverless.prod.yml && npm run clear:serverless",
-    "domain:beta": "sls create_domain --config=./deployment/serverless.beta.yml",
-    "domain:prod": "sls create_domain --config=./deployment/serverless.prod.yml"
+    "config:copy:beta": "cp ./deployment/serverless.beta.yml ./serverless.yml",
+    "config:copy:prod": "cp ./deployment/serverless.prod.yml ./serverless.yml",
+    "config:delete": "rm ./serverless.yml",
+    "delete:beta": "npm run config:delete; npm run config:copy:beta && sls remove; npm run config:delete",
+    "delete:prod": "npm run config:delete; npm run config:copy:prod && sls remove; npm run config:delete",
+    "deploy:beta": "npm run config:delete; npm run config:copy:beta && npm run build && sls deploy; npm run config:delete",
+    "deploy:prod": "npm run config:delete; npm run config:copy:prod && npm run build && sls deploy; npm run config:delete",
+    "domain:beta": "npm run config:delete; npm run config:copy:beta && sls create_domain; npm run config:delete",
+    "domain:prod": "npm run config:delete; npm run config:copy:prod && sls create_domain; npm run config:delete"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "dependencies": {
     "eslint-import-resolver-webpack": "^0.13.0",
     "nodemailer": "^6.5.0",
     "serverless-domain-manager": "^4.2.0",
+    "square": "^18.0.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
@@ -42,7 +46,7 @@
     "lint-staged": "^10.5.4",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
-    "serverless": "^2.48.0",
+    "serverless": "^3.15.2",
     "ts-jest": "^26.5.5",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.9"
