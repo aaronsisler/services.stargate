@@ -98,8 +98,8 @@ functions:
     handler: dist/payment/index.handler
     description: Used to send payment to third party payment provider
     environment:
-      PAYMENT_ACCESS_TOKEN_DRCG_PROPERTIES: ${env:PAYMENT_ACCESS_TOKEN_DRCG_PROPERTIES}
-      PAYMENT_ACCESS_TOKEN_EB_SOLUTIONS: ${env:PAYMENT_ACCESS_TOKEN_EB_SOLUTIONS}
+      PAYMENT_ACCESS_TOKEN_DRCG_PROPERTIES: ${env:BETA_PAYMENT_ACCESS_TOKEN_DRCG_PROPERTIES}
+      PAYMENT_ACCESS_TOKEN_EB_SOLUTIONS: ${env:BETA_PAYMENT_ACCESS_TOKEN_EB_SOLUTIONS}
     events:
       - http:
           path: /payment
