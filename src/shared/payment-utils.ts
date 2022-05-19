@@ -2,6 +2,7 @@ import { APIGatewayProxyEvent } from "aws-lambda";
 import { Address, Client, CreatePaymentResponse, Environment } from "square";
 
 import { generateUuid } from "./generate-uuid";
+import { retrieveEnvironmentVariable } from "../shared/shared-utils";
 import { CustomerInfo, CustomerInfoDto } from "../models/customer";
 
 BigInt.prototype["toJSON"] = function () {
@@ -82,9 +83,11 @@ const sendPayment = async (
   console.log("accessToken");
   console.log(accessToken);
 
+  const isProd: boolean = retrieveEnvironmentVariable("NODE_ENV") === "prod";
+
   const { customersApi, paymentsApi } = new Client({
     accessToken,
-    environment: Environment.Sandbox,
+    environment: isProd ? Environment.Production : Environment.Sandbox,
   });
 
   const { result: customerResult } = await customersApi.createCustomer({
@@ -106,4 +109,4 @@ const sendPayment = async (
   return result;
 };
 
-export { retrieveAccessToken, sendPayment };
+export { sendPayment };

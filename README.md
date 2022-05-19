@@ -23,3 +23,7 @@ You will need to create the `secrets.json` file in the root of the directory wit
 - /email-with-attachment
   - POST
   - Send email with attachment from users of deployed apps to business contact of company
+
+### To Do
+
+- Have Environment toggle based on beta or prod ENV var
