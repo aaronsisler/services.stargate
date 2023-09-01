@@ -44,36 +44,6 @@ functions:
           path: /health
           method: GET
 
-  authorize:
-    handler: dist/authorize/index.handler
-    description: Gateway authorize check. Responds with 200 and cute message depending on auth level.
-    events:
-      - http:
-          path: /authorize
-          method: GET
-          cors:
-            headers: ${file(./deployment/cors.json):headers}
-
-  error:
-    handler: dist/error/index.handler
-    description: Used to trigger a 500 HTTP Response code for alarm testing
-    events:
-      - http:
-          path: /error
-          method: POST
-          cors:
-            headers: ${file(./deployment/cors.json):headers}
-
-  bad-request:
-    handler: dist/bad-request/index.handler
-    description: Used to trigger a 400 HTTP Response code for alarm testing
-    events:
-      - http:
-          path: /bad-request
-          method: POST
-          cors:
-            headers: ${file(./deployment/cors.json):headers}
-
   email:
     handler: dist/email/index.handler
     description: Used to send email with Simple Email Service (SES)
