@@ -19,7 +19,7 @@
     "domain:prod": "npm run config:delete; npm run config:copy:prod && sls create_domain; npm run config:delete"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "eslint-import-resolver-webpack": "^0.13.0",
@@ -31,8 +31,7 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.79",
     "@types/express": "^4.17.11",
-    "@types/jest": "^26.0.22",
-    "@types/node": "^14.14.41",
+    "@types/node": "^18.17.12",
     "@types/nodemailer": "^6.4.1",
     "@types/uuid": "^8.3.1",
     "eslint": "^7.24.0",
@@ -42,14 +41,12 @@
     "eslint-plugin-prettier": "^3.4.0",
     "express": "^4.17.1",
     "husky": "^4.3.8",
-    "jest": "^26.6.3",
     "lint-staged": "^10.5.4",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
     "serverless": "^3.15.2",
-    "ts-jest": "^26.5.5",
     "ts-node": "^8.10.2",
-    "typescript": "^3.9.9"
+    "typescript": "^5.2.2"
   },
   "repository": {
     "type": "git",
