@@ -1,6 +1,7 @@
 export const SERVICE_EMAIL_ADDRESS = "aaron.sisler@eandbsolutions.com";
 
 export const VALID_IP_ADDRESSES: string[] = [
+  "64.98.122.48", // Home
   // "64.98.114.195", // Home
   // "96.10.245.210", // YMCA
 ];
