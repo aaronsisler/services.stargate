@@ -64,19 +64,6 @@ functions:
           cors:
             headers: ${file(./deployment/cors.json):headers}
 
-  payment:
-    handler: dist/payment/index.handler
-    description: Used to send payment to third party payment provider
-    environment:
-      PAYMENT_ACCESS_TOKEN_DRCG_PROPERTIES: ${env:PAYMENT_ACCESS_TOKEN_DRCG_PROPERTIES}
-      PAYMENT_ACCESS_TOKEN_EB_SOLUTIONS: ${env:PAYMENT_ACCESS_TOKEN_EB_SOLUTIONS}
-    events:
-      - http:
-          path: /payment
-          method: POST
-          cors:
-            headers: ${file(./deployment/cors.json):headers}
-
 plugins:
   - serverless-domain-manager
 
