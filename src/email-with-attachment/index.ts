@@ -22,6 +22,9 @@ const handler = async (event: APIGatewayProxyEvent, _context: Context) => {
   }
 
   logTracer(traceId, "EMAIL__EVENT_PARSING");
+  if (!event.body) {
+    return get400Response();
+  }
   const data = JSON.parse(event.body);
   const apiVersion = event.headers["api-version"];
 
