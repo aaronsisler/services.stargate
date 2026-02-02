@@ -1,4 +1,4 @@
-import { APIGatewayProxyEvent } from "aws-lambda";
+import { APIGatewayProxyEvent, Context } from "aws-lambda";
 import { validateAuthorization } from "../shared/authorization-service";
 import { sendEmailWithAttachment } from "../shared/email-service";
 import {
@@ -12,21 +12,19 @@ import { logError, logRunTime, logTracer } from "../shared/logging-utils";
 import { validateEmailAttachmentInputs } from "../shared/validate-inputs";
 import { versionOneAttachmentAdapter } from "../shared/version-adapter";
 
-const handler = async (
-  event: APIGatewayProxyEvent,
-  _context: any,
-  callback: any
-) => {
+const handler = async (event: APIGatewayProxyEvent, _context: Context) => {
   const traceId: string = generateShortUuid();
   logTracer(traceId, "EMAIL_ATTACHMENT__START");
 
   if (!validateAuthorization(event)) {
     logTracer(traceId, "EMAIL__AUTH_FAILED");
-    callback(null, get403Response());
-    return;
+    return get403Response();
   }
 
   logTracer(traceId, "EMAIL__EVENT_PARSING");
+  if (!event.body) {
+    return get400Response();
+  }
   const data = JSON.parse(event.body);
   const apiVersion = event.headers["api-version"];
 
@@ -35,8 +33,7 @@ const handler = async (
 
   logTracer(traceId, "EMAIL_ATTACHMENT__VALIDATE_INPUTS");
   if (!validateEmailAttachmentInputs(inputs)) {
-    callback(null, get400Response());
-    return;
+    return get400Response();
   }
 
   try {
@@ -45,13 +42,11 @@ const handler = async (
     await sendEmailWithAttachment(inputs);
     logRunTime("EMAIL_ATTACHMENT_HANDLER", startTime);
 
-    callback(null, get200Response());
-    return;
+    return get200Response();
   } catch (error) {
     logError("EMAIL_ATTACHMENT", error);
 
-    callback(null, get500Response());
-    return;
+    return get500Response();
   }
 };
 

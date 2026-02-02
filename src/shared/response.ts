@@ -8,7 +8,9 @@ const baseResponse = {
 const get200Response = (message: string = "Success") => ({
   ...baseResponse,
   statusCode: 200,
-  body: message,
+  body: JSON.stringify({
+    message,
+  }),
 });
 
 const get400Response = () => ({

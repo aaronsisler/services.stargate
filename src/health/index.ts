@@ -1,11 +1,18 @@
+import {
+  APIGatewayProxyEvent,
+  APIGatewayProxyResult,
+  Context,
+} from "aws-lambda";
+
 import { healthService } from "./health-service";
 import { get200Response } from "../shared/response";
 
-const handler = (_event: any, _context: any, callback: any) => {
+const handler = async (
+  _event: APIGatewayProxyEvent,
+  _context: Context
+): Promise<APIGatewayProxyResult> => {
   const message = healthService();
-  const response = get200Response(message);
-
-  return callback(null, response);
+  return get200Response(message);
 };
 
 export { handler };
