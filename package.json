@@ -1,6 +1,6 @@
 {
   "name": "services.stargate",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "private": true,
   "scripts": {
     "clear:dist": "rm -rf ./dist",
@@ -19,7 +19,7 @@
     "domain:prod": "npm run config:delete; npm run config:copy:prod && sls create_domain; npm run config:delete"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=24.0.0"
   },
   "dependencies": {
     "eslint-import-resolver-webpack": "^0.13.0",
