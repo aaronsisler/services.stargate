@@ -1,4 +1,4 @@
-import { APIGatewayProxyEvent } from "aws-lambda";
+import { APIGatewayProxyEvent, Context } from "aws-lambda";
 import { validateAuthorization } from "../shared/authorization-service";
 import { sendEmail } from "../shared/email-service";
 import {
@@ -12,18 +12,13 @@ import { logError, logRunTime, logTracer } from "../shared/logging-utils";
 import { validateEmailInputs } from "../shared/validate-inputs";
 import { versionOneEmailAdapter } from "../shared/version-adapter";
 
-const handler = async (
-  event: APIGatewayProxyEvent,
-  _context: any,
-  callback: any
-) => {
+const handler = async (event: APIGatewayProxyEvent, _context: Context) => {
   const traceId: string = generateShortUuid();
   logTracer(traceId, "EMAIL__START");
 
   if (!validateAuthorization(event)) {
     logTracer(traceId, "EMAIL__AUTH_FAILED");
-    callback(null, get403Response());
-    return;
+    return get403Response();
   }
 
   logTracer(traceId, "EMAIL__EVENT_PARSING");
@@ -35,7 +30,7 @@ const handler = async (
 
   logTracer(traceId, "EMAIL__VALIDATE_INPUTS");
   if (!validateEmailInputs(inputs)) {
-    return callback(null, get400Response());
+    return get400Response();
   }
 
   try {
@@ -44,11 +39,11 @@ const handler = async (
     await sendEmail(inputs);
     logRunTime("EMAIL_HANDLER", startTime);
 
-    return callback(null, get200Response());
+    return get200Response();
   } catch (error) {
     logError("EMAIL", error);
 
-    return callback(null, get500Response());
+    return get500Response();
   }
 };
 
