@@ -31,19 +31,4 @@ const get500Response = () => ({
   body: "Something blew up",
 });
 
-const getCustomResponse = (
-  statusCode: number = 200,
-  message: string = "Success"
-) => ({
-  ...baseResponse,
-  statusCode: statusCode,
-  body: message,
-});
-
-export {
-  get200Response,
-  get400Response,
-  get403Response,
-  get500Response,
-  getCustomResponse,
-};
+export { get200Response, get400Response, get403Response, get500Response };
