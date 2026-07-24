@@ -13,7 +13,7 @@ import { validateEmailInputs } from "../shared/validate-inputs";
 import { versionOneEmailAdapter } from "../shared/version-adapter";
 
 const handler = async (
-  event: APIGatewayProxyEvent,
+  event: APIGatewayProxyEvent = {} as APIGatewayProxyEvent,
   _context: any,
   callback: any
 ) => {
@@ -27,7 +27,7 @@ const handler = async (
   }
 
   logTracer(traceId, "EMAIL__EVENT_PARSING");
-  const data = JSON.parse(event.body);
+  const data = JSON.parse(event.body || "{}");
   const apiVersion = event.headers["api-version"];
 
   logTracer(traceId, "EMAIL__INPUTS");
@@ -45,7 +45,7 @@ const handler = async (
     logRunTime("EMAIL_HANDLER", startTime);
 
     return callback(null, get200Response());
-  } catch (error) {
+  } catch (error: any) {
     logError("EMAIL", error);
 
     return callback(null, get500Response());
