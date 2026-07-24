@@ -1,19 +1,15 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "module": "commonjs",
     "esModuleInterop": true,
-    "suppressImplicitAnyIndexErrors": true,
     "ignoreDeprecations": "5.0",
-    "target": "es6",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "noImplicitAny": true,
-    "moduleResolution": "node",
-    "sourceMap": true,
+    "rootDir": ".",
     "outDir": "dist",
-    "baseUrl": ".",
-    "paths": {
-      "*": ["node_modules/*", "src/types/*"]
-    }
+    "sourceMap": true,
+    "target": "es6"
   },
   "include": ["src/**/*"],
   "exclude": ["src/**/*.spec.ts"]

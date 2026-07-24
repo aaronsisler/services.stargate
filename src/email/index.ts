@@ -43,7 +43,7 @@ const handler = async (event: APIGatewayProxyEvent, _context: Context) => {
     logRunTime("EMAIL_HANDLER", startTime);
 
     return get200Response();
-  } catch (error) {
+  } catch (error: any) {
     logError("EMAIL", error);
 
     return get500Response();
