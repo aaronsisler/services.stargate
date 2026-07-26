@@ -18,14 +18,4 @@ const logRunTime = (methodName: string, startTime: number) => {
   console.log(`METHOD: ${methodName} | RUN_TIME: ${totalRunTime}`);
 };
 
-const logTracer = (traceId: string, pointInWorkflow: string) =>
-  console.log(
-    `TRACE_ID: ${traceId} | POINT_IN_WORKFLOW: ${pointInWorkflow} | TIME_STAMP: ${buildTimeStamp()}`
-  );
-
-const buildTimeStamp = () => {
-  const now = new Date(Date.now());
-  return `${now.getFullYear()}-${now.getMonth()}-${now.getDay()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}:${now.getMilliseconds()}`;
-};
-
-export { logClient, logError, logInfo, logRunTime, logTracer };
+export { logClient, logError, logInfo, logRunTime };

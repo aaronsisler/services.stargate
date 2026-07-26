@@ -7,43 +7,35 @@ import {
   get403Response,
   get500Response,
 } from "../shared/response";
-import { generateShortUuid } from "../shared/generate-uuid";
-import { logError, logRunTime, logTracer } from "../shared/logging-utils";
+import { logError, logRunTime } from "../shared/logging-utils";
 import { validateEmailAttachmentInputs } from "../shared/validate-inputs";
 import { versionOneAttachmentAdapter } from "../shared/version-adapter";
 
 const handler = async (event: APIGatewayProxyEvent, _context: Context) => {
-  const traceId: string = generateShortUuid();
-  logTracer(traceId, "EMAIL_ATTACHMENT__START");
-
   if (!validateAuthorization(event)) {
-    logTracer(traceId, "EMAIL__AUTH_FAILED");
     return get403Response();
   }
 
-  logTracer(traceId, "EMAIL__EVENT_PARSING");
   if (!event.body) {
     return get400Response();
   }
+
   const data = JSON.parse(event.body);
   const apiVersion = event.headers["api-version"];
 
-  logTracer(traceId, "EMAIL_ATTACHMENT__INPUTS");
   const inputs = !apiVersion ? versionOneAttachmentAdapter(data) : data;
 
-  logTracer(traceId, "EMAIL_ATTACHMENT__VALIDATE_INPUTS");
   if (!validateEmailAttachmentInputs(inputs)) {
     return get400Response();
   }
 
   try {
     const startTime = Date.now();
-    logTracer(traceId, "EMAIL_ATTACHMENT__SEND_EMAIL");
     await sendEmailWithAttachment(inputs);
     logRunTime("EMAIL_ATTACHMENT_HANDLER", startTime);
 
     return get200Response();
-  } catch (error) {
+  } catch (error: any) {
     logError("EMAIL_ATTACHMENT", error);
 
     return get500Response();
