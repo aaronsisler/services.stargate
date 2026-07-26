@@ -1,15 +1,21 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "ignoreDeprecations": "5.0",
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "lib": ["es2022"],
     "module": "nodenext",
+    "moduleDetection": "force",
     "moduleResolution": "nodenext",
-    "noImplicitAny": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noUncheckedIndexedAccess": true,
     "rootDir": "src",
     "outDir": "dist",
+    "skipLibCheck": true,
     "sourceMap": true,
-    "target": "es6"
+    "strict": true,
+    "target": "es2022"
   },
   "include": ["src/**/*"],
   "exclude": ["src/**/*.spec.ts"]
