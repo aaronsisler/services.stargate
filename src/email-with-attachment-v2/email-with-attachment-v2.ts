@@ -9,7 +9,6 @@ import {
 } from "../shared/response";
 import { logError, logRunTime } from "../shared/logging-utils";
 import { isBotSubmission, validateInputs } from "../shared/validate-inputs";
-import { versionOneAttachmentAdapter } from "../shared/version-adapter";
 import { ValidateInputType } from "../shared/validate-input-type";
 
 const emailWithAttachmentHandlerV2 = async (
