@@ -26,7 +26,7 @@ const emailHandlerV2 = async (
   const data = JSON.parse(event.body);
 
   if (isBotSubmission(data)) {
-    return get200Response();
+    return get200Response("Bot submission received");
   }
 
   if (!validateInputs(ValidateInputType.EMAIL, data)) {
