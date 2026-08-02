@@ -8,15 +8,8 @@
     "lint": "eslint \"./**/*.{ts,js}\"",
     "prebuild": "npm run clear:dist && npm run clear:serverless",
     "build": "tsc",
-    "config:copy:beta": "cp ./deployment/serverless.beta.yml ./serverless.yml",
-    "config:copy:prod": "cp ./deployment/serverless.prod.yml ./serverless.yml",
-    "config:delete": "rm ./serverless.yml",
-    "delete:beta": "npm run config:delete; npm run config:copy:beta && sls remove; npm run config:delete",
-    "delete:prod": "npm run config:delete; npm run config:copy:prod && sls remove; npm run config:delete",
-    "deploy:beta": "npm run config:delete; npm run config:copy:beta && npm run build && sls deploy; npm run config:delete",
-    "deploy:prod": "npm run config:delete; npm run config:copy:prod && npm run build && sls deploy; npm run config:delete",
-    "domain:beta": "npm run config:delete; npm run config:copy:beta && sls create_domain; npm run config:delete",
-    "domain:prod": "npm run config:delete; npm run config:copy:prod && sls create_domain; npm run config:delete"
+    "delete": "bash ./scripts/with-config.sh \"sls remove\"",
+    "deploy": "bash ./scripts/with-config.sh \"npm run build && sls deploy\""
   },
   "engines": {
     "node": ">=24.0.0"

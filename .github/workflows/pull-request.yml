@@ -1,5 +1,4 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
-# For more information see: https://help.github.com/actions/language-and-framework-guides/publishing-nodejs-packages
+# Lints, type-checks, and deploys the beta stage for every pull request targeting main.
 
 name: Pull Request
 
@@ -18,12 +17,19 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: 24
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Deploy
-        run: npm run deploy:beta
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run build
+
+      - name: Deploy to beta
+        run: npm run deploy -- beta
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
