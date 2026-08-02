@@ -4,15 +4,14 @@ import {
   Context,
 } from "aws-lambda";
 
-import { healthHandler } from "./health";
 import { get200Response } from "../shared/response";
 
-const handler = async (
+const healthHandler = async (
   _event: APIGatewayProxyEvent,
   _context: Context
 ): Promise<APIGatewayProxyResult> => {
-  const message = healthService();
+  const message = `The current time is ${new Date().toTimeString()}.`;
   return get200Response(message);
 };
 
-export { healthHandler as handler };
+export { healthHandler };

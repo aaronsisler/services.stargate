@@ -44,12 +44,29 @@ functions:
           path: /health
           method: GET
 
+  email-v2:
+    handler: dist/email-v2/index.handler
+    description: Used to send email with Simple Email Service (SES)
+    events:
+      - http:
+          path: /email/v2
+
   email:
     handler: dist/email/index.handler
     description: Used to send email with Simple Email Service (SES)
     events:
       - http:
           path: /email
+          method: POST
+          cors:
+            headers: ${file(./deployment/cors.json):headers}
+
+  email-with-attachment-v2:
+    handler: dist/email-with-attachment-v2/index.handler
+    description: Used to send email containing attachment with NodeMailer and Simple Email Service (SES)
+    events:
+      - http:
+          path: /email-with-attachment/v2
           method: POST
           cors:
             headers: ${file(./deployment/cors.json):headers}
