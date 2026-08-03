@@ -13,7 +13,7 @@ import { ValidateInputType } from "../shared/validate-input-type";
 
 const emailWithAttachmentHandlerV2 = async (
   event: APIGatewayProxyEvent,
-  _context: Context
+  _context: Context,
 ) => {
   if (!isAuthorized(event)) {
     return get403Response();

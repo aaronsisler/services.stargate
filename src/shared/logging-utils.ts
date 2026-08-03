@@ -1,6 +1,6 @@
 const logClient = (clientName: string) =>
   console.log(
-    `CLIENT: ${clientName} | MONTH: ${new Date(Date.now()).getMonth() + 1}`
+    `CLIENT: ${clientName} | MONTH: ${new Date(Date.now()).getMonth() + 1}`,
   );
 
 const logError = (caller: string, errorMessage: string): void => {

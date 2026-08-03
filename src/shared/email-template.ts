@@ -37,7 +37,7 @@ const getEmailTemplate = (inputs: any, hasAttachment = false) => {
   if (galleryPieceLink) {
     html += getTableRow(
       "Gallery Piece",
-      `<a href="${galleryPieceLink}">${galleryPieceName}</a>`
+      `<a href="${galleryPieceLink}">${galleryPieceName}</a>`,
     );
   }
 
