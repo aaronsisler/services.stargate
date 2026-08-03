@@ -32,7 +32,6 @@ jobs:
         run: npm run build
 
       - name: Deploy
-        description: Deploy to environment depending on event i.e. pull request or push to main
         run: npm run deploy -- ${{ github.event_name == 'push' && 'prod' || 'beta' }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
