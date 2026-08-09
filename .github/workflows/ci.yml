@@ -1,5 +1,10 @@
 # Lints, type-checks, and deploys on pushes and pull requests targeting main.
 # Deploys to prod on push (post-merge), beta on pull requests.
+#
+# Each build also bumps the app version and commits it back to the branch:
+# minor on push to main, patch on pull requests. The commit message includes
+# "[skip ci]", which GitHub recognizes natively and will not trigger another
+# workflow run for it, avoiding a commit loop.
 
 name: CI
 
@@ -9,12 +14,17 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: write
+
 jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref || github.ref }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -30,6 +40,20 @@ jobs:
 
       - name: Type check
         run: npm run build
+
+      - name: Bump version
+        id: bump
+        run: |
+          npm version ${{ github.event_name == 'push' && 'minor' || 'patch' }} --no-git-tag-version
+          echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Commit version bump
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git commit -m "chore: bump version to ${{ steps.bump.outputs.version }} [skip ci]"
+          git push
 
       - name: Deploy
         run: npm run deploy -- ${{ github.event_name == 'push' && 'prod' || 'beta' }}
