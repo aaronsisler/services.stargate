@@ -3,7 +3,7 @@ service: stargate
 provider:
   name: aws
   runtime: nodejs24.x
-  stage: beta
+  stage: prod
   region: us-east-1
   logRetentionInDays: 14
   iam:
@@ -27,8 +27,8 @@ provider:
           - execute-api:/*/POST/*
           - execute-api:/*/OPTIONS/*
   environment:
-    NODE_ENV: beta
-    APP_VERSION: ${file(./package.json):version}
+    NODE_ENV: prod
+    APP_VERSION: ${env:APP_VERSION, file(./package.json):version}
 
 package:
   exclude:
@@ -51,9 +51,6 @@ functions:
     events:
       - http:
           path: /email/v2
-          method: POST
-          cors:
-            headers: ${file(./deployment/cors.json):headers}
 
   email:
     handler: dist/email/index.handler
@@ -91,6 +88,6 @@ plugins:
 custom:
   customDomain:
     domainName: services.eandbsolutions.com
-    basePath: "beta"
-    stage: beta
+    basePath: "prod"
+    stage: prod
     createRoute53Record: true
