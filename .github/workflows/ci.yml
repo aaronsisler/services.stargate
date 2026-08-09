@@ -1,14 +1,11 @@
 # Lints, type-checks, and deploys on pushes and pull requests targeting main.
 # Deploys to prod on push (post-merge), beta on pull requests.
 #
-# Pull requests deploy to beta with a synthetic, uncommitted version
-# (base version + run number + short SHA) so each beta deploy is traceable
-# back to the exact Action run and commit, without ever pushing to the PR
-# branch. Pushes to main bump the real minor version and commit it, since
-# that's the one history we actually want tracked; that push is made with
-# the workflow's own token, which GitHub attributes to the github-actions[bot]
-# actor, so the job-level `if` below skips the resulting follow-up run and
-# avoids a commit loop.
+# Pull requests deploy to beta with an uncommitted version (base version +
+# PR head commit SHA) so each deploy is traceable via `git show <sha>`,
+# without pushing to the PR branch. Pushes to main bump and commit the real
+# minor version; that push is attributed to github-actions[bot], which the
+# job-level `if` below skips to avoid a commit loop.
 
 name: CI
 
@@ -58,8 +55,8 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           base_version="$(node -p "require('./package.json').version")"
-          short_sha="$(git rev-parse --short HEAD)"
-          echo "APP_VERSION=${base_version}-beta.${{ github.run_number }}+${short_sha}" >> "$GITHUB_ENV"
+          commit_sha="${{ github.event.pull_request.head.sha }}"
+          echo "APP_VERSION=${base_version}-beta+${commit_sha:0:7}" >> "$GITHUB_ENV"
 
       - name: Deploy
         run: npm run deploy -- ${{ github.event_name == 'push' && 'prod' || 'beta' }}
