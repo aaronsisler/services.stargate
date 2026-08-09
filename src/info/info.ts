@@ -6,12 +6,14 @@ import {
 
 import { get200Response } from "../shared/response";
 
-const healthHandler = async (
+const infoHandler = async (
   _event: APIGatewayProxyEvent,
   _context: Context,
 ): Promise<APIGatewayProxyResult> => {
-  const message = `The current time is ${new Date().toTimeString()}.`;
-  return get200Response(message);
+  return get200Response({
+    currentTime: new Date().toTimeString(),
+    version: process.env.APP_VERSION,
+  });
 };
 
-export { healthHandler };
+export { infoHandler };

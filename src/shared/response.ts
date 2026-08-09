@@ -5,12 +5,12 @@ const baseResponse = {
   },
 };
 
-const get200Response = (message: string = "Success") => ({
+const get200Response = (payload: string | object = "Success") => ({
   ...baseResponse,
   statusCode: 200,
-  body: JSON.stringify({
-    message,
-  }),
+  body: JSON.stringify(
+    typeof payload === "string" ? { message: payload } : payload,
+  ),
 });
 
 const get400Response = () => ({

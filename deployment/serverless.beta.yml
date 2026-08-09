@@ -28,6 +28,7 @@ provider:
           - execute-api:/*/OPTIONS/*
   environment:
     NODE_ENV: beta
+    APP_VERSION: ${file(./package.json):version}
 
 package:
   exclude:
@@ -36,12 +37,12 @@ package:
     - "**.*"
 
 functions:
-  health:
-    handler: dist/health/index.handler
-    description: Gateway health check. Responds with current time and a short message.
+  info:
+    handler: dist/info/index.handler
+    description: Gateway info endpoint. Responds with current time and the current application version.
     events:
       - http:
-          path: /health
+          path: /info
           method: GET
 
   email-v2:
