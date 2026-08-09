@@ -28,7 +28,7 @@ provider:
           - execute-api:/*/OPTIONS/*
   environment:
     NODE_ENV: beta
-    APP_VERSION: ${file(./package.json):version}
+    APP_VERSION: ${env:APP_VERSION, file(./package.json):version}
 
 package:
   exclude:
