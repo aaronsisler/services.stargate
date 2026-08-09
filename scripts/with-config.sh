@@ -9,12 +9,12 @@ if [ -z "$stage" ]; then
   exit 1
 fi
 
-cp "./deployment/serverless.${stage}.yml" ./serverless.yml
+cp "./deployment/serverless.${stage}.yaml" ./serverless.yaml
 
 set +e
 bash -c "$command"
 status=$?
 set -e
 
-rm -f ./serverless.yml
+rm -f ./serverless.yaml
 exit $status
