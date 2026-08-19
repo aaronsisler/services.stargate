@@ -1,10 +1,8 @@
 service: stargate
 
-shared:
+custom:
   cors: &cors
     headers: ${file(./deployment/cors.json):headers}
-
-common:
   customDomain:
     domainName: services.eandbsolutions.com
     basePath: ${env:STAGE}
