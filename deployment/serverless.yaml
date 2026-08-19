@@ -1,9 +1,20 @@
 service: stargate
 
+shared:
+  cors: &cors
+    headers: ${file(./deployment/cors.json):headers}
+
+common:
+  customDomain:
+    domainName: services.eandbsolutions.com
+    basePath: ${env:STAGE}
+    stage: ${env:STAGE}
+    createRoute53Record: true
+
 provider:
   name: aws
   runtime: nodejs24.x
-  stage: prod
+  stage: ${env:STAGE}
   region: us-east-1
   logRetentionInDays: 14
   iam:
@@ -27,7 +38,7 @@ provider:
           - execute-api:/*/POST/*
           - execute-api:/*/OPTIONS/*
   environment:
-    NODE_ENV: prod
+    NODE_ENV: ${env:STAGE}
     APP_VERSION: ${env:APP_VERSION, file(./package.json):version}
 
 package:
@@ -51,6 +62,8 @@ functions:
     events:
       - http:
           path: /email/v2
+          method: POST
+          cors: *cors
 
   email:
     handler: dist/email/index.handler
@@ -59,8 +72,7 @@ functions:
       - http:
           path: /email
           method: POST
-          cors:
-            headers: ${file(./deployment/cors.json):headers}
+          cors: *cors
 
   email-with-attachment-v2:
     handler: dist/email-with-attachment-v2/index.handler
@@ -69,8 +81,7 @@ functions:
       - http:
           path: /email-with-attachment/v2
           method: POST
-          cors:
-            headers: ${file(./deployment/cors.json):headers}
+          cors: *cors
 
   email-with-attachment:
     handler: dist/email-with-attachment/index.handler
@@ -79,15 +90,7 @@ functions:
       - http:
           path: /email-with-attachment
           method: POST
-          cors:
-            headers: ${file(./deployment/cors.json):headers}
+          cors: *cors
 
 plugins:
   - serverless-domain-manager
-
-custom:
-  customDomain:
-    domainName: services.eandbsolutions.com
-    basePath: "prod"
-    stage: prod
-    createRoute53Record: true

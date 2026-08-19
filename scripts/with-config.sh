@@ -9,10 +9,10 @@ if [ -z "$stage" ]; then
   exit 1
 fi
 
-cp "./deployment/serverless.${stage}.yaml" ./serverless.yaml
+cp "./deployment/serverless.yaml" ./serverless.yaml
 
 set +e
-bash -c "$command"
+STAGE="$stage" bash -c "$command"
 status=$?
 set -e
 
