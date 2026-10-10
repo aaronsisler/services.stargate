@@ -1,4 +1,3 @@
-import { HONEYPOT_INPUT_FIELD_NAMES } from "./honeypot-input-field-names";
 import { ValidateInputType } from "./validate-input-type";
 
 const MIN_SUBMISSION_TIME_MS = 1500;
@@ -15,10 +14,6 @@ const validateInputs = (type: ValidateInputType, data: any): boolean => {
 };
 
 const isBotSubmission = (data: any): boolean => {
-  if (HONEYPOT_INPUT_FIELD_NAMES.some((fieldName) => data[fieldName])) {
-    return true;
-  }
-
   if (typeof data.elapsedFormTimeMs !== "number") {
     return true;
   }
