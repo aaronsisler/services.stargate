@@ -19,27 +19,27 @@
     "*.ts": "eslint --fix"
   },
   "dependencies": {
-    "@aws-sdk/client-sesv2": "^3.1101.0",
+    "@aws-sdk/client-sesv2": "^3.1149.0",
     "nodemailer": "^10.1.0",
-    "serverless-domain-manager": "^4.2.0"
+    "serverless-domain-manager": "^10.3.1"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.162",
-    "@types/node": "^24.0.0",
-    "@types/nodemailer": "^8.0.1",
-    "@eslint/js": "^9.0.0",
-    "eslint": "^9.0.0",
-    "eslint-config-prettier": "^10.0.0",
-    "eslint-import-resolver-typescript": "^4.0.0",
+    "@types/aws-lambda": "^8.10.164",
+    "@types/node": "^26.6.5",
+    "@types/nodemailer": "^8.0.2",
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-prettier": "^5.0.0",
-    "globals": "^17.0.0",
+    "eslint-plugin-prettier": "^5.5.6",
+    "globals": "^17.13.0",
     "husky": "^9.1.7",
-    "lint-staged": "^17.3.0",
-    "prettier": "^3.0.0",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.10",
     "serverless": "^3.40.0",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.0.0"
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.71.1"
   },
   "repository": {
     "type": "git",
