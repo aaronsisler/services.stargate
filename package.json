@@ -21,7 +21,7 @@
   "dependencies": {
     "@aws-sdk/client-sesv2": "^3.1149.0",
     "nodemailer": "^10.1.0",
-    "serverless-domain-manager": "^10.3.1"
+    "serverless-domain-manager": "^4.2.0"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.164",
